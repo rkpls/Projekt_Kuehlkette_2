@@ -1,0 +1,182 @@
+\doxysection{UIKuehlkette\+\_\+\+V1 Namespace Reference}
+\hypertarget{namespace_u_i_kuehlkette___v1}{}\label{namespace_u_i_kuehlkette___v1}\index{UIKuehlkette\_V1@{UIKuehlkette\_V1}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_aac061c4283c5d0b9ae4193450d0f8f50}\label{namespace_u_i_kuehlkette___v1_aac061c4283c5d0b9ae4193450d0f8f50} 
+{\bfseries fetch\+\_\+data} ()
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a422cec2793495318b4dd8927e16f8efe}\label{namespace_u_i_kuehlkette___v1_a422cec2793495318b4dd8927e16f8efe} 
+{\bfseries display\+\_\+results} (results, transport\+\_\+id)
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a45192c694872366cb58bf05429071f5d}\label{namespace_u_i_kuehlkette___v1_a45192c694872366cb58bf05429071f5d} 
+{\bfseries set\+\_\+german} ()
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a23e6417eeb7f70445a26430710e5b81e}\label{namespace_u_i_kuehlkette___v1_a23e6417eeb7f70445a26430710e5b81e} 
+{\bfseries set\+\_\+english} ()
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a1245b0a1a739dc48b971b203b073c18a}\label{namespace_u_i_kuehlkette___v1_a1245b0a1a739dc48b971b203b073c18a} 
+{\bfseries set\+\_\+arabic} ()
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_af85432d1735a9abf6d8f90d5f0fbb291}\label{namespace_u_i_kuehlkette___v1_af85432d1735a9abf6d8f90d5f0fbb291} 
+{\bfseries update\+\_\+gui\+\_\+language} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a62a52d842c322ea02b3aad4c8b84f48a}\label{namespace_u_i_kuehlkette___v1_a62a52d842c322ea02b3aad4c8b84f48a} 
+str {\bfseries server} = \textquotesingle{}sc-\/db-\/server.\+database.\+windows.\+net\textquotesingle{}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a3aa02b2b0047d289163a0bb696d7db8a}\label{namespace_u_i_kuehlkette___v1_a3aa02b2b0047d289163a0bb696d7db8a} 
+str {\bfseries database} = \textquotesingle{}supplychain\textquotesingle{}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a767770d9df1d887f2ed2d9168743c4a9}\label{namespace_u_i_kuehlkette___v1_a767770d9df1d887f2ed2d9168743c4a9} 
+str {\bfseries username} = \textquotesingle{}rse\textquotesingle{}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a5d89b492330511085bcbbbbae85c6173}\label{namespace_u_i_kuehlkette___v1_a5d89b492330511085bcbbbbae85c6173} 
+str {\bfseries password} = \textquotesingle{}Pa\$\$w0rd\textquotesingle{}
+\item 
+tuple \mbox{\hyperlink{namespace_u_i_kuehlkette___v1_ae1448f1d3d1ad8d65a24de64310124a0}{conn\+\_\+str}}
+\item 
+list \mbox{\hyperlink{namespace_u_i_kuehlkette___v1_ac605eb72aca321754380182a493856de}{transport\+\_\+ids}}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a93ba08350a41cb55ace1987877fdf34a}\label{namespace_u_i_kuehlkette___v1_a93ba08350a41cb55ace1987877fdf34a} 
+dict {\bfseries LANGUAGES}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a6695eb1fa67313077a7bed580d1b08d9}\label{namespace_u_i_kuehlkette___v1_a6695eb1fa67313077a7bed580d1b08d9} 
+dict {\bfseries lang} = LANGUAGES\mbox{[}"{}DE"{}\mbox{]}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a5653fb6898e46b06fd4b3029beaec6f6}\label{namespace_u_i_kuehlkette___v1_a5653fb6898e46b06fd4b3029beaec6f6} 
+{\bfseries root} = ctk.\+CTk()
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a68145f244f45ad47b5d21a9390bd24bc}\label{namespace_u_i_kuehlkette___v1_a68145f244f45ad47b5d21a9390bd24bc} 
+{\bfseries label\+\_\+transport\+\_\+id} = ctk.\+CTk\+Label(root, text=lang\mbox{[}"{}Transport ID eingeben\+:"{}\mbox{]}, font=("{}Arial"{}, 14))
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a8ffc1081bde6629331de7433c9f110a0}\label{namespace_u_i_kuehlkette___v1_a8ffc1081bde6629331de7433c9f110a0} 
+{\bfseries pady}
+\item 
+\mbox{\hyperlink{namespace_u_i_kuehlkette___v1_a1c013087fa70ccf1b8cf5e0a32e0eeb8}{dropdown\+\_\+transport\+\_\+id}}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a1715f53680b9fe82ebe0de7c3d3a0d4b}\label{namespace_u_i_kuehlkette___v1_a1715f53680b9fe82ebe0de7c3d3a0d4b} 
+{\bfseries frame\+\_\+results} = ctk.\+CTk\+Frame(root, width=860, height=300)
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a86b925c79a12c345e90f239d32a30da4}\label{namespace_u_i_kuehlkette___v1_a86b925c79a12c345e90f239d32a30da4} 
+{\bfseries padx}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a27a980c88c0ebcf9bf1fba4ec4503ca8}\label{namespace_u_i_kuehlkette___v1_a27a980c88c0ebcf9bf1fba4ec4503ca8} 
+{\bfseries fill}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a09bc645c503ee6895bddfbaab1377929}\label{namespace_u_i_kuehlkette___v1_a09bc645c503ee6895bddfbaab1377929} 
+{\bfseries expand}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a6eea841c041f157db41a976cc2862175}\label{namespace_u_i_kuehlkette___v1_a6eea841c041f157db41a976cc2862175} 
+{\bfseries button\+\_\+language\+\_\+1} = ctk.\+CTk\+Button(root, text="{}EN"{}, command=set\+\_\+english, width=50)
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a3b6a30cdb9f8f02efeb0d4f1759c8090}\label{namespace_u_i_kuehlkette___v1_a3b6a30cdb9f8f02efeb0d4f1759c8090} 
+{\bfseries relx}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_aefbac9f1bd038b326e6543a411b8a862}\label{namespace_u_i_kuehlkette___v1_aefbac9f1bd038b326e6543a411b8a862} 
+{\bfseries rely}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a20a4680138034f29569f769880eaafc1}\label{namespace_u_i_kuehlkette___v1_a20a4680138034f29569f769880eaafc1} 
+{\bfseries anchor}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_ac4e62154446fc5eba81781b3f78f33b7}\label{namespace_u_i_kuehlkette___v1_ac4e62154446fc5eba81781b3f78f33b7} 
+{\bfseries x}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a70d20779d7a299be41310b953531a238}\label{namespace_u_i_kuehlkette___v1_a70d20779d7a299be41310b953531a238} 
+{\bfseries y}
+\item 
+\Hypertarget{namespace_u_i_kuehlkette___v1_a3646429043954cf2a8dfe6161a453145}\label{namespace_u_i_kuehlkette___v1_a3646429043954cf2a8dfe6161a453145} 
+{\bfseries button\+\_\+language\+\_\+2} = ctk.\+CTk\+Button(root, text="{}AR"{}, command=set\+\_\+arabic, width=50)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Autoren: 
+David 
+Riko 
+Christian V. 
+Lars 
+Hicham 
+
+Kurs: 
+ETS23-Python-SIZ-RSE
+
+Projekt:
+ETS-CoolChainProject-1 V1.3 Phase 1
+letzte Änderung: 17.09.2024
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespace_u_i_kuehlkette___v1_ae1448f1d3d1ad8d65a24de64310124a0}\index{UIKuehlkette\_V1@{UIKuehlkette\_V1}!conn\_str@{conn\_str}}
+\index{conn\_str@{conn\_str}!UIKuehlkette\_V1@{UIKuehlkette\_V1}}
+\doxysubsubsection{\texorpdfstring{conn\_str}{conn\_str}}
+{\footnotesize\ttfamily \label{namespace_u_i_kuehlkette___v1_ae1448f1d3d1ad8d65a24de64310124a0} 
+tuple UIKuehlkette\+\_\+\+V1.\+conn\+\_\+str}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ (}
+\DoxyCodeLine{00002\ \ \ \ \ f\textcolor{stringliteral}{'DRIVER=\{\{ODBC\ Driver\ 18\ for\ SQL\ Server\}\};'}}
+\DoxyCodeLine{00003\ \ \ \ \ f\textcolor{stringliteral}{'SERVER=\{server\};'}}
+\DoxyCodeLine{00004\ \ \ \ \ f\textcolor{stringliteral}{'DATABASE=\{database\};'}}
+\DoxyCodeLine{00005\ \ \ \ \ f\textcolor{stringliteral}{'UID=\{username\};'}}
+\DoxyCodeLine{00006\ \ \ \ \ f\textcolor{stringliteral}{'PWD=\{password\}'}}
+\DoxyCodeLine{00007\ )}
+
+\end{DoxyCode}
+\Hypertarget{namespace_u_i_kuehlkette___v1_a1c013087fa70ccf1b8cf5e0a32e0eeb8}\index{UIKuehlkette\_V1@{UIKuehlkette\_V1}!dropdown\_transport\_id@{dropdown\_transport\_id}}
+\index{dropdown\_transport\_id@{dropdown\_transport\_id}!UIKuehlkette\_V1@{UIKuehlkette\_V1}}
+\doxysubsubsection{\texorpdfstring{dropdown\_transport\_id}{dropdown\_transport\_id}}
+{\footnotesize\ttfamily \label{namespace_u_i_kuehlkette___v1_a1c013087fa70ccf1b8cf5e0a32e0eeb8} 
+UIKuehlkette\+\_\+\+V1.\+dropdown\+\_\+transport\+\_\+id}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ ctk.CTkOptionMenu(}
+\DoxyCodeLine{00002\ \ \ \ \ root,}
+\DoxyCodeLine{00003\ \ \ \ \ values=transport\_ids,}
+\DoxyCodeLine{00004\ \ \ \ \ font=(\textcolor{stringliteral}{"{}Arial"{}},\ 12),}
+\DoxyCodeLine{00005\ \ \ \ \ width=600,}
+\DoxyCodeLine{00006\ \ \ \ \ fg\_color=\textcolor{stringliteral}{"{}black"{}},\ \ \textcolor{comment}{\#\ Hintergrundfarbe\ des\ drop\ down\ menu}}
+\DoxyCodeLine{00007\ \ \ \ \ button\_color=\textcolor{stringliteral}{"{}black"{}},\ \ \textcolor{comment}{\#\ Farbe\ des\ Schalters}}
+\DoxyCodeLine{00008\ \ \ \ \ button\_hover\_color=\textcolor{stringliteral}{"{}darkgray"{}},\ \ \textcolor{comment}{\#\ Farbe\ wenn\ über\ den\ Schalter/Knopf\ gefahren\ wird}}
+\DoxyCodeLine{00009\ \ \ \ \ text\_color=\textcolor{stringliteral}{"{}white"{}},\ \ \textcolor{comment}{\#\ Textfarbe}}
+\DoxyCodeLine{00010\ \ \ \ \ command=\textcolor{keyword}{lambda}\ choice:\ fetch\_data()\ \ \textcolor{comment}{\#\ Direkte\ Aufruf\ der\ Funktion\ nach\ Auswahl}}
+\DoxyCodeLine{00011\ )}
+
+\end{DoxyCode}
+\Hypertarget{namespace_u_i_kuehlkette___v1_ac605eb72aca321754380182a493856de}\index{UIKuehlkette\_V1@{UIKuehlkette\_V1}!transport\_ids@{transport\_ids}}
+\index{transport\_ids@{transport\_ids}!UIKuehlkette\_V1@{UIKuehlkette\_V1}}
+\doxysubsubsection{\texorpdfstring{transport\_ids}{transport\_ids}}
+{\footnotesize\ttfamily \label{namespace_u_i_kuehlkette___v1_ac605eb72aca321754380182a493856de} 
+list UIKuehlkette\+\_\+\+V1.\+transport\+\_\+ids}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ [}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}72359278599178561029675"{}},}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}15668407856331648336231"{}},}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}73491878556297128760578"{}},}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}99346757838434834886542"{}},}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{"{}46204863139457546291334"{}},}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{stringliteral}{"{}77631003455214677542311"{}},}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{"{}34778534098134729847267"{}},}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{stringliteral}{"{}64296734612883933474299"{}},}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{stringliteral}{"{}84356113249506843372979"{}},}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{stringliteral}{"{}23964376768701928340034"{}},}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{stringliteral}{"{}55638471099438572108556"{}},}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{stringliteral}{"{}84552276793340958450995"{}},}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{stringliteral}{"{}96853785349211053482893"{}},}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{stringliteral}{"{}68345254400506854834562"{}},}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{stringliteral}{"{}67424886737245693583645"{}},}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{stringliteral}{"{}85746762813849598680239"{}},}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{stringliteral}{"{}56993454245564893300000"{}},}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{stringliteral}{"{}95662334024905944384522"{}},}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{stringliteral}{"{}13456783852887496020345"{}},}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{stringliteral}{"{}76381745965049879836902"{}}}
+\DoxyCodeLine{00022\ ]}
+
+\end{DoxyCode}
