@@ -67,12 +67,15 @@ def fetch_data():
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT ts.transportstation, ts.category, c.direction, c.datetime, t.temperature 
+            SELECT ts.transportstation, ts.category, c.direction, c.datetime, 
+                   (SELECT TOP 1 t.temperature 
+                    FROM tempdata t 
+                    WHERE t.datetime <= c.datetime 
+                    AND c.transportstationID = ts.transportstationID 
+                    ORDER BY t.datetime DESC) AS temperature
             FROM coolchain c
             JOIN transportstation ts ON c.transportstationID = ts.transportstationID
-            LEFT JOIN tempdata t ON c.datetime = t.datetime
             WHERE c.transportID = ? 
-            ORDER BY c.datetime
         ''', (transport_id,))
         
         results = cursor.fetchall()
@@ -82,8 +85,8 @@ def fetch_data():
     finally:
         if conn:
             conn.close()
-
-
+            
+            
 # Def Daten Anzeigen
 def display_results(results, transport_id):
     for widget in frame_results.winfo_children():
@@ -112,7 +115,7 @@ def display_results(results, transport_id):
                 time_diff_str = str(time_difference)
                 if time_difference.total_seconds() < 1:
                     warnung = lang["Nicht plausibler Zeitstempel"]
-                if direction == "in" and time_difference > timedelta(minutes=10):
+                elif direction == "in" and time_difference > timedelta(minutes=10):
                     warnung = lang["Übergabezeit über 10 Minuten"]
             else:
                 time_diff_str = "N/A"
@@ -123,14 +126,17 @@ def display_results(results, transport_id):
             if direction == "in" and previous_location == transportstation:
                 warnung = lang["Transportstation ist doppelt"]
 
+            if last_direction == "in" and row_index == len(results):
+                warnung = lang["Lieferung nicht abgeschlossen"]
+
             previous_datetime = current_datetime
             previous_direction = direction
             previous_location = transportstation
 
             row_data = [transportstation, category, direction, current_datetime, temperature, time_diff_str, warnung]
             for col_index, item in enumerate(row_data):
-                label_style = ("Arial", 14, "bold") if col_index == 6 else ("Arial", 12)
-                text_color = "red" if col_index == 6 else "white"
+                label_style = ("Arial", 14, "bold") if col_index == 6 and warnung.strip() else ("Arial", 12)
+                text_color = "red" if col_index == 6 and warnung.strip() else "white"
                 label = ctk.CTkLabel(frame_results, text=str(item), font=label_style, text_color=text_color)
                 label.grid(row=row_index, column=col_index, padx=10, pady=5)
 
@@ -147,8 +153,7 @@ def display_results(results, transport_id):
             final_error_label.grid(row=row_index + 2, column=6, pady=0)
     else:
         no_result_label = ctk.CTkLabel(frame_results, text=lang["Diese Transport ID existiert nicht: "] + transport_id, font=("Arial", 14, "bold"), text_color="black", fg_color="yellow")
-        no_result_label.pack(pady=20)
-                
+        no_result_label.pack(pady=20)     
 # lokalisierung DE
 def set_german():
     global lang
