@@ -66,10 +66,18 @@ def fetch_data():
     try:
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
-        cursor.execute('SELECT transportstation, category, direction, datetime FROM _orig WHERE transportid = ?', (transport_id,))
-        results = cursor.fetchall() # results: hier eine Matrix aller Daten
+        cursor.execute('''
+            SELECT ts.transportstation, ts.category, c.direction, c.datetime, t.temperature 
+            FROM coolchain c
+            JOIN transportstation ts ON c.transportstationID = ts.transportstationID
+            LEFT JOIN tempdata t ON c.datetime = t.datetime
+            WHERE c.transportID = ? 
+            ORDER BY c.datetime
+        ''', (transport_id,))
+        
+        results = cursor.fetchall()
         display_results(results, transport_id)
-    except pyodbc.Error as e: #Fehlerabfang, Meldung im Fenster ausgeben
+    except pyodbc.Error as e:
         messagebox.showerror(lang["Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."], str(e))
     finally:
         if conn:
@@ -78,13 +86,11 @@ def fetch_data():
 
 # Def Daten Anzeigen
 def display_results(results, transport_id):
-
     for widget in frame_results.winfo_children():
         widget.destroy()
 
     if results:
-
-        headers = [lang["Ort"], lang["Kategorie"], lang["Richtung"], lang["Zeitstempel"], lang["Dauer"], lang["Warnung"]]
+        headers = [lang["Ort"], lang["Kategorie"], lang["Richtung"], lang["Zeitstempel"], lang["Temperatur"], lang["Dauer"], lang["Warnung"]]
         for i, header in enumerate(headers):
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
@@ -96,8 +102,7 @@ def display_results(results, transport_id):
         previous_location = None
 
         for row_index, row in enumerate(results, start=1):
-            transportstation, category, direction, current_datetime = row
-
+            transportstation, category, direction, current_datetime, temperature = row
             last_datetime = current_datetime
             last_direction = direction
             warnung = " "
@@ -105,53 +110,45 @@ def display_results(results, transport_id):
             if previous_datetime:
                 time_difference = current_datetime - previous_datetime
                 time_diff_str = str(time_difference)
-
                 if time_difference.total_seconds() < 1:
                     warnung = lang["Nicht plausibler Zeitstempel"]
-
-                if direction == "'in'" and time_difference > timedelta(minutes=10):
+                if direction == "in" and time_difference > timedelta(minutes=10):
                     warnung = lang["Übergabezeit über 10 Minuten"]
-
             else:
                 time_diff_str = "N/A"
 
-            if previous_direction:
-                if previous_direction == direction:
-                    warnung = lang["Doppelter oder fehlender Eintrag"]
+            if previous_direction and previous_direction == direction:
+                warnung = lang["Doppelter oder fehlender Eintrag"]
+
+            if direction == "in" and previous_location == transportstation:
+                warnung = lang["Transportstation ist doppelt"]
 
             previous_datetime = current_datetime
             previous_direction = direction
-
-            if direction == "'in'" and previous_location == transportstation:
-                warnung = lang["Transportstation ist doppelt"]
-
             previous_location = transportstation
 
-            row_data = [transportstation, category, direction, current_datetime, time_diff_str, warnung]
+            row_data = [transportstation, category, direction, current_datetime, temperature, time_diff_str, warnung]
             for col_index, item in enumerate(row_data):
-                if col_index == 5:
-                    label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 14, "bold"), text_color="red")
-                    label.grid(row=row_index, column=col_index, padx=10, pady=5)
-                else:
-                    label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 12))
-                    label.grid(row=row_index, column=col_index, padx=10, pady=5)
+                label_style = ("Arial", 14, "bold") if col_index == 6 else ("Arial", 12)
+                text_color = "red" if col_index == 6 else "white"
+                label = ctk.CTkLabel(frame_results, text=str(item), font=label_style, text_color=text_color)
+                label.grid(row=row_index, column=col_index, padx=10, pady=5)
 
         total_time_difference = last_datetime - first_datetime
         if total_time_difference > timedelta(hours=48):
             final_error_label = ctk.CTkLabel(frame_results, text=lang["Transportdauer über 48 Stunden"], font=("Arial", 14, "bold"), text_color="red")
-            final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
+            final_error_label.grid(row=row_index + 1, column=6, pady=0)
 
-        if last_direction == "'in'":
+        if last_direction == "in":
             delta_to_present = datetime.now() - last_datetime
             days = delta_to_present.days
-            hours = delta_to_present.seconds // 3600    
-            final_error_label = ctk.CTkLabel(frame_results, text=lang ["Lieferung nicht vollständig. Zeit seit letztem Eintrag: "] + '\u200e' + f" {days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
-            final_error_label.grid(row=row_index + 2, column=5, columnspan=1, pady=0)
-
+            hours = delta_to_present.seconds // 3600
+            final_error_label = ctk.CTkLabel(frame_results, text=lang["Lieferung nicht vollständig. Zeit seit letztem Eintrag:"] + f" {days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
+            final_error_label.grid(row=row_index + 2, column=6, pady=0)
     else:
         no_result_label = ctk.CTkLabel(frame_results, text=lang["Diese Transport ID existiert nicht: "] + transport_id, font=("Arial", 14, "bold"), text_color="black", fg_color="yellow")
         no_result_label.pack(pady=20)
-        
+                
 # lokalisierung DE
 def set_german():
     global lang
