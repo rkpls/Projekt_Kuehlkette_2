@@ -10,8 +10,8 @@ Kurs:
 ETS23-Python-SIZ-RSE
 
 Projekt:
-ETS-CoolChainProject-1 V1.3 Phase 1
-letzte Änderung: 17.09.2024
+ETS-CoolChainProject-2 V1.3 Phase 2
+letzte Änderung: 25.02.2025
 """
 
 import pyodbc
@@ -203,7 +203,8 @@ LANGUAGES = {
         "Fehler": "Fehler",
         "Bitte eine valide Transport ID eingeben.": "Bitte eine valide Transport ID eingeben.",
         "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.",
-        "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ": "Lieferung nicht vollständig. Zeit seit letztem Eintrag: "
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ": "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ",
+        "Temperatur": "Temperatur"
     },
     "EN": {
         "Transport ID eingeben:": "Enter Transport ID:",
@@ -223,7 +224,8 @@ LANGUAGES = {
         "Fehler": "Error",
         "Bitte eine valide Transport ID eingeben.": "Please enter a valid Transport ID.",
         "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Database access error. Please check your network connection.",
-        "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ": "Delivery incomplete. Time since last entry: "
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ": "Delivery incomplete. Time since last entry: ",
+        "Temperatur": "Temperature"
     },
     "AR": {
         "Transport ID eingeben:": "أدخل معرف النقل:",
@@ -243,7 +245,8 @@ LANGUAGES = {
         "Fehler": "خطأ",
         "Bitte eine valide Transport ID eingeben.": "يرجى إدخال معرف نقل صالح.",
         "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "خطأ في الوصول إلى قاعدة البيانات. يرجى التحقق من اتصال الشبكة.",
-        "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ": "التسليم غير مكتمل. الوقت منذ آخر تسجيل: "
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag: ": "التسليم غير مكتمل. الوقت منذ آخر تسجيل: ",
+        "Temperatur": "الحرارة"
     }
 }
 
