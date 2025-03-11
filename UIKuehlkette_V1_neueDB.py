@@ -20,17 +20,13 @@ import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
 from datetime import timedelta, datetime
+import wetter_LS
 
 def load_config():
-    """
-    Lädt die Konfigurationsdaten aus der config.json Datei und gibt sie als Dictionary zurück.
-    Falls die Datei nicht existiert oder fehlerhaft ist, wird ein Fehler ausgegeben.
-    """
     config_path = "config.json"
 
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Die Konfigurationsdatei '{config_path}' wurde nicht gefunden.")
-
     try:
         with open(config_path, "r", encoding="utf-8") as file:
             config = json.load(file)
@@ -51,6 +47,7 @@ username = config["username"]
 password = config["password"]
 password_cryp = config["password_cryp"]
 init_vector_crypt = config["init_vector_crypt"]
+api_key = config["api_key"]
 
 conn_str = (
     f'DRIVER={{ODBC Driver 18 for SQL Server}};'
@@ -103,7 +100,8 @@ def fetch_data():
             FROM coolchain cc
             JOIN transportstation ts ON cc.transportstationID = ts.transportstationID
             WHERE cc.transportID = ?
-            ORDER BY cc.datetime ASC  -- Sortierung nach Timestamp (älteste zuerst)
+            ORDER BY cc.datetime ASC 
+            
         '''
         cursor.execute(query, (transport_id,))
         results = cursor.fetchall()  # Ergebnisse abrufen
@@ -363,3 +361,5 @@ button_language_2.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)
 # Programmstart
 root.mainloop()
 
+wetter_daten = wetter_LS.wetter(api_key, location, timestamp)
+    
