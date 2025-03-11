@@ -181,20 +181,19 @@ conn = pyodbc.connect(conn_str)
 cursor = conn.cursor() 
  
 # Datensätze auslesen 
-select_query = 'SELECT companyID, company, strasse, ort, plz FROM company_crypt' 
+select_query = 'SELECT transportstationID, transportstation, category, plz FROM transportstation_crypt' 
 cursor.execute(select_query) 
  
 # Für jeden Datensatz die Entschlüsselung durchführen und ausgeben 
 for row in cursor.fetchall(): 
-   companyID, encrypted_company, encrypted_strasse, encrypted_ort, encrypted_plz = row 
+   transportstationID, encrypted_transportstation, encrypted_category, encrypted_plz = row 
     
    # Da die Daten als binär gespeichert wurden, sollte hier keine Umwandlung mit str() erfolgen 
-   decrypted_company = decrypt_value(encrypted_company) 
-   decrypted_strasse = decrypt_value(encrypted_strasse) 
-   decrypted_ort = decrypt_value(encrypted_ort) 
+   decrypted_transportstation = decrypt_value(encrypted_transportstation) 
+   decrypted_category = decrypt_value(encrypted_category) 
    decrypted_plz = decrypt_value(encrypted_plz) 
      
-   print(f"ID: {companyID}, Company: {decrypted_company}, Strasse: {decrypted_strasse}, Ort: {decrypted_ort}, PLZ: {decrypted_plz}") 
+   print(f"ID: {transportstationID}, Transportstation: {decrypted_transportstation}, Kategorie: {decrypted_category}, PLZ: {decrypted_plz}") 
 
 
     
