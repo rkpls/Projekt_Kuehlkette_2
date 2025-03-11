@@ -14,16 +14,43 @@ ETS-CoolChainProject-2 V1.3 Phase 2
 letzte Änderung: 25.02.2025
 """
 
+import os
+import json
 import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
 from datetime import timedelta, datetime
 
-# Verbindungsinfo
-server = 'sc-db-server.database.windows.net'
-database = 'supplychain'
-username = 'rse'
-password = 'Pa$$w0rd'
+def load_config():
+    """
+    Lädt die Konfigurationsdaten aus der config.json Datei und gibt sie als Dictionary zurück.
+    Falls die Datei nicht existiert oder fehlerhaft ist, wird ein Fehler ausgegeben.
+    """
+    config_path = "config.json"
+
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Die Konfigurationsdatei '{config_path}' wurde nicht gefunden.")
+
+    try:
+        with open(config_path, "r", encoding="utf-8") as file:
+            config = json.load(file)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Fehler beim Einlesen der JSON-Datei: {e}")
+
+    required_keys = ["server", "database", "username", "password", "password_cryp", "init_vector_crypt"]
+    for key in required_keys:
+        if key not in config:
+            raise KeyError(f"Fehlender Schlüssel '{key}' in der Konfigurationsdatei.")
+
+    return config
+
+config = load_config()
+server = config["server"]
+database = config["database"]
+username = config["username"]
+password = config["password"]
+password_cryp = config["password_cryp"]
+init_vector_crypt = config["init_vector_crypt"]
 
 conn_str = (
     f'DRIVER={{ODBC Driver 18 for SQL Server}};'
@@ -56,7 +83,8 @@ transport_ids = [
     "76381745965049879836902"
 ]
 
-# Def Verbindung Datenbank
+# Passwörter und config laden
+
 # Def Verbindung Datenbank
 def fetch_data():
     transport_id = dropdown_transport_id.get()
@@ -335,18 +363,3 @@ button_language_2.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)
 # Programmstart
 root.mainloop()
 
-
-
-"""
-Copy Paste IDs mit Fehlern:
-
-15668407856331648336231                 >10min
-99346757838434834886542                 >48h
-77631003455214677542311                 >10min
-23964376768701928340034                 kein auscheck
-55638471099438572108556                 - Zeit
-84552276793340958450995                 >10min
-68345254400506854834562                 selbes lager
-67424886737245693583645                 doppelt auscheck
-56993454245564893300000                 kein Eintrag
-"""
