@@ -11,7 +11,7 @@ ETS23-Python-SIZ-RSE
 
 Projekt:
 ETS-CoolChainProject-2 V1.3 Phase 2
-letzte Änderung: 25.02.2025
+letzte Änderung: 24.03.2025
 """
 
 import os
@@ -24,7 +24,6 @@ import wetter_LS
 
 def load_config():
     config_path = "config.json"
-
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Die Konfigurationsdatei '{config_path}' wurde nicht gefunden.")
     try:
@@ -32,12 +31,10 @@ def load_config():
             config = json.load(file)
     except json.JSONDecodeError as e:
         raise ValueError(f"Fehler beim Einlesen der JSON-Datei: {e}")
-
     required_keys = ["server", "database", "username", "password", "password_cryp", "init_vector_crypt"]
     for key in required_keys:
         if key not in config:
             raise KeyError(f"Fehlender Schlüssel '{key}' in der Konfigurationsdatei.")
-
     return config
 
 config = load_config()
@@ -79,9 +76,6 @@ transport_ids = [
     "13456783852887496020345",
     "76381745965049879836902"
 ]
-
-# Passwörter und config laden
-
 # Def Verbindung Datenbank
 def fetch_data():
     transport_id = dropdown_transport_id.get()
@@ -113,8 +107,6 @@ def fetch_data():
         if conn:
             conn.close()
 
-            
-# Def Daten Anzeigen
 # Def Daten Anzeigen
 def display_results(results, transport_id):
     for widget in frame_results.winfo_children():
@@ -170,11 +162,7 @@ def display_results(results, transport_id):
 
             previous_location = transportstation
 
-            row_data = [
-                transport_id, transportstation_id, transportstation, category, plz,
-                direction, current_datetime, time_diff_str, warnung
-            ]
-
+            row_data = [transport_id, transportstation_id, transportstation, category, plz, direction, current_datetime, time_diff_str, warnung]
             # Spalten in der UI anzeigen
             for col_index, item in enumerate(row_data):
                 if col_index == 8:  # Warnung farbig anzeigen
@@ -186,9 +174,7 @@ def display_results(results, transport_id):
         # Prüfung, ob die gesamte Transportdauer über 48 Stunden liegt
         total_time_difference = last_datetime - first_datetime
         if total_time_difference > timedelta(hours=48):
-            final_error_label = ctk.CTkLabel(
-                frame_results, text=lang["Transportdauer über 48 Stunden"], font=("Arial", 14, "bold"), text_color="red"
-            )
+            final_error_label = ctk.CTkLabel(frame_results, text=lang["Transportdauer über 48 Stunden"], font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 1, column=8, columnspan=1, pady=0)
 
         # Prüfung, ob die Lieferung unvollständig ist (wenn letzte Richtung 'in' war)
@@ -196,20 +182,13 @@ def display_results(results, transport_id):
             delta_to_present = datetime.now() - last_datetime
             days = delta_to_present.days
             hours = delta_to_present.seconds // 3600    
-            final_error_label = ctk.CTkLabel(
-                frame_results, text=lang["Lieferung nicht vollständig. Zeit seit letztem Eintrag: "] + f" {days}d {hours}h",
-                font=("Arial", 14, "bold"), text_color="red"
-            )
+            final_error_label = ctk.CTkLabel(frame_results, text=lang["Lieferung nicht vollständig. Zeit seit letztem Eintrag: "] + f" {days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 2, column=8, columnspan=1, pady=0)
 
     else:
         # Falls keine Daten zur Transport ID gefunden wurden
-        no_result_label = ctk.CTkLabel(
-            frame_results, text=lang["Diese Transport ID existiert nicht: "] + transport_id,
-            font=("Arial", 14, "bold"), text_color="black", fg_color="yellow"
-        )
+        no_result_label = ctk.CTkLabel(frame_results, text=lang["Diese Transport ID existiert nicht: "] + transport_id, font=("Arial", 14, "bold"), text_color="black", fg_color="yellow")
         no_result_label.pack(pady=20)
-
 
 # lokalisierung DE
 def set_german():
@@ -362,4 +341,3 @@ button_language_2.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)
 root.mainloop()
 
 wetter_daten = wetter_LS.wetter(api_key, location, timestamp)
-    
