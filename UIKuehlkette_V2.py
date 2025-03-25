@@ -19,12 +19,17 @@ import json
 import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
-from datetime import timedelta, datetime
-import wetter_LS
+from datetime import timedelta
 from base64 import b64decode
 from Crypto.Cipher import AES 
 from Crypto.Util.Padding import unpad 
 
+##
+# \brief Lädt Vertrauliche Daten us der config File mit gitignore Eintrag.
+#
+# Diese Funktion verwendet os.path und json.load um auf die Datei zuzugreifen.
+#
+# \return Die hinterlegten Daten
 def load_config():
     config_path = "config.json"
     if not os.path.exists(config_path):
@@ -34,7 +39,7 @@ def load_config():
             config = json.load(file)
     except json.JSONDecodeError as e:
         raise ValueError(f"Fehler beim Einlesen der JSON-Datei: {e}")
-    required_keys = ["server", "database", "username", "password", "password_cryp", "init_vector_crypt"]
+    required_keys = ["server", "database", "username", "password", "password_cryp", "init_vector_crypt", "decode_key", "decode_iv"]
     for key in required_keys:
         if key not in config:
             raise KeyError(f"Fehlender Schlüssel '{key}' in der Konfigurationsdatei.")
@@ -92,7 +97,7 @@ transport_ids = [
 # \param encrypted_data Der verschlüsselte Datenwert als bytes
 # \return Der entschlüsselte String
 def decrypt_value(encrypted_data): 
-    cipher = AES.new(decode_key, AES.MODE_CBC, decode_iv)                                 # Verschlüsselung initialisieren 
+    cipher = AES.new(decode_key, AES.MODE_CBC, decode_iv)
     return unpad(cipher.decrypt(encrypted_data), AES.block_size).decode() 
 
 ##
@@ -125,10 +130,10 @@ def fetch_data():
             
         '''
         cursor.execute(query, (transport_id,))
-        results = cursor.fetchall()  # Ergebnisse abrufen
+        results = cursor.fetchall()
         display_results(results, transport_id)
         
-    except pyodbc.Error as e:  # Fehlerbehandlung
+    except pyodbc.Error as e:
         messagebox.showerror(lang["Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."], str(e))
     finally:
         if conn:
@@ -183,7 +188,7 @@ def display_results(results, transport_id):
         previous_location = None
 
         for row_index, row in enumerate(decrypted_results, start=1):
-            transport_id, transportstation_id, transportstation, category, plz, direction, current_datetime = row
+            transport_id, transportstation_id, transportstation, category, plz, direction, current_datetime, duration = row
 
             last_datetime = current_datetime
             last_direction = direction
