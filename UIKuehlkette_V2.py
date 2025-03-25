@@ -83,12 +83,27 @@ transport_ids = [
     "76381745965049879836902"
 ]
 
-# Entschlüsselungsfunktion 
+##
+# \brief Entschlüsselt einen verschlüsselten Datenbankwert mittels AES im CBC-Modus.
+#
+# Diese Funktion verwendet einen globalen Schlüssel und Initialisierungsvektor,
+# um verschlüsselte Spalten wie Transportstation, Kategorie und PLZ zu entschlüsseln.
+#
+# \param encrypted_data Der verschlüsselte Datenwert als bytes
+# \return Der entschlüsselte String
 def decrypt_value(encrypted_data): 
     cipher = AES.new(decode_key, AES.MODE_CBC, decode_iv)                                 # Verschlüsselung initialisieren 
     return unpad(cipher.decrypt(encrypted_data), AES.block_size).decode() 
 
-# Def Verbindung Datenbank
+##
+# \brief Führt eine Datenbankabfrage zur Kühlkette aus und ruft die zugehörigen Transportdaten ab.
+#
+# Diese Funktion stellt eine Verbindung zur SQL-Datenbank her, führt eine verknüpfte Abfrage
+# auf den Tabellen `coolchain` und `transportstation_crypt` aus, und übergibt die Ergebnisse
+# zur Anzeige an die Funktion \ref display_results.
+#
+# \throws messagebox.showerror bei ungültiger Eingabe oder Datenbankfehler
+
 def fetch_data():
     transport_id = dropdown_transport_id.get()
     if not transport_id:
@@ -119,7 +134,16 @@ def fetch_data():
         if conn:
             conn.close()
 
-# Def Daten Anzeigen
+##
+# \brief Zeigt die abgerufenen und entschlüsselten Transportdaten im GUI an.
+#
+# Die Funktion verarbeitet die verschlüsselten Datenbankwerte, entschlüsselt relevante Spalten,
+# berechnet Zeitdifferenzen und zeigt Warnungen für unplausible Einträge an.
+# Ergebnisse werden dynamisch in einem CTkFrame dargestellt.
+#
+# \param results Die Ergebnisliste der SQL-Abfrage (pyodbc.fetchall)
+# \param transport_id Die aktuell ausgewählte Transport-ID für die Anzeige
+
 def display_results(results, transport_id):
     decrypted_results = []
     for row in results:
@@ -220,25 +244,33 @@ def display_results(results, transport_id):
         no_result_label = ctk.CTkLabel(frame_results, text=lang["Diese Transport ID existiert nicht: "] + transport_id, font=("Arial", 14, "bold"), text_color="black", fg_color="yellow")
         no_result_label.pack(pady=20)
 
-# lokalisierung DE
+##
+# \brief Setzt die Sprache der Benutzeroberfläche auf Deutsch.
+# \details Aktualisiert globale Variable \c lang und ruft \ref update_gui_language auf.
 def set_german():
     global lang
     lang = LANGUAGES["DE"]
     update_gui_language()
 
-# lokalisierung EN
+##
+# \brief Setzt die Sprache der Benutzeroberfläche auf Englisch.
 def set_english():
     global lang
     lang = LANGUAGES["EN"]
     update_gui_language()
 
-# lokalisierung AR
+##
+# \brief Setzt die Sprache der Benutzeroberfläche auf Arabisch.
 def set_arabic():
     global lang
     lang = LANGUAGES["AR"]
     update_gui_language()
 
-# update lokalisierung Button
+##
+# \brief Aktualisiert alle GUI-Elemente basierend auf der aktuellen Spracheinstellung.
+#
+# Diese Funktion passt Texte von Labels und Buttons an die gewählte Sprache an
+# und ruft \ref fetch_data auf, um neue Daten im Sprachkontext anzuzeigen.
 def update_gui_language():
     label_transport_id.configure(text=lang["Transport ID eingeben:"])
 
@@ -254,7 +286,8 @@ def update_gui_language():
         
     fetch_data()
 
-# hinterlegung der Sprachen
+## \var lang
+#  \brief Hinterlegung der Übersetzungen
 LANGUAGES = {
     "DE": {
         "Transport ID":"Transport ID",
@@ -330,19 +363,26 @@ LANGUAGES = {
     }
 }
 
-# Sprache bei Start 
+## \var lang
+#  \brief Aktuell gewählte Sprache (Standard: Deutsch)
 lang = LANGUAGES["DE"]
 
 # UI Fenster aufsetzen: Dark mode, blaue Akzente, Name, Größe
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
+## \var root
+#  \brief Hauptfenster der CTk-Anwendung
 root = ctk.CTk()
 root.title("Kühlketten Überwachung")
 root.geometry("1200x700") 
 
-# Überschrift Eingabebox Knopf
+## \var label_transport_id
+#  \brief Beschriftung für das Transport-ID Dropdown-Menü
 label_transport_id = ctk.CTkLabel(root, text=lang["Transport ID eingeben:"], font=("Arial", 14))
 label_transport_id.pack(pady=(60, 10))
+## \var dropdown_transport_id
+#  \brief Dropdown-Menü zur Auswahl einer Transport-ID. 
+#  \details Triggert \ref fetch_data beim Auswählen eines Eintrags.
 dropdown_transport_id = ctk.CTkOptionMenu(
     root,
     values=transport_ids,
@@ -356,18 +396,21 @@ dropdown_transport_id = ctk.CTkOptionMenu(
 )
 dropdown_transport_id.pack(pady=(10, 20))
 
-# Rahmen für Liste
+## \var frame_results
+#  \brief Frame zur Anzeige der entschlüsselten Transportdaten.
 frame_results = ctk.CTkFrame(root, width=860, height=300)
 frame_results.pack(pady=20, padx=20, fill="both", expand=True)
 
-# Knöpfe für Lokalisierung
+## \var button_language_1
+#  \brief Sprachumschalter-Button (z. B. DE/EN)
 button_language_1 = ctk.CTkButton(root, text="EN", command=set_english, width=50)
 button_language_1.place(relx=1.0, rely=0.0, anchor="ne", x=-80, y=20)
-
+## \var button_language_2
+#  \brief Zweiter Sprachumschalter-Button (z. B. AR)
 button_language_2 = ctk.CTkButton(root, text="AR", command=set_arabic, width=50)
 button_language_2.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)
 
-# Programmstart
+##
+# \brief Startet die GUI-Anwendung.
 root.mainloop()
 
-wetter_daten = wetter_LS.wetter(api_key, location, timestamp)
