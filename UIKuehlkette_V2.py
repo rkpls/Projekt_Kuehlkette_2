@@ -177,16 +177,6 @@ def fetch_data():
 # \param results Die Ergebnisliste der SQL-Abfrage (pyodbc.fetchall)
 # \param transport_id Die aktuell ausgewählte Transport-ID für die Anzeige
 
-##
-# \brief Zeigt entschlüsselte Transportdaten im GUI an und prüft auf Zeit- & Temperaturabweichungen.
-#
-# Diese Funktion verarbeitet Daten aus `coolchain` und `transportstation_crypt`,
-# entschlüsselt relevante Felder, prüft auf Logikfehler wie doppelte Einträge oder
-# zu lange Übergabezeiten und ergänzt Temperaturwarnungen, falls während des Lagerzeitraums
-# Werte außerhalb des erlaubten Bereichs (+2°C bis +4°C) auftreten.
-#
-# \param results Die Ergebnisliste der SQL-Abfrage (pyodbc.fetchall)
-# \param transport_id Die aktuell ausgewählte Transport-ID für die Anzeige
 def display_results(results, transport_id):
     decrypted_results = []
 
