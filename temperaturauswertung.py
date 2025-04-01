@@ -45,3 +45,9 @@ for row in cursor.fetchall():
 # Verbindung schließen 
 cursor.close() 
 conn.close() 
+
+"""
+117,
+327-351,
+531,  
+"""
